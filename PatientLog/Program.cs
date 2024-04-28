@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using PatientLog.Data.Contexts;
 using PatientLog.Data.Repositories.Abstract;
 using PatientLog.Data.Repositories.Concrete;
+using PatientLog.Service.Abstract;
+using PatientLog.Service.Concrete;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +16,10 @@ builder.Services.AddSwaggerGen();
 
 //Repository
 builder.Services.AddScoped<IAdminRepository, AdminRepository>();
+
+
+//Business Services
+builder.Services.AddScoped<IAdminService, AdminService>();
 
 
 builder.Services.AddDbContext<AppDbContext>(options =>

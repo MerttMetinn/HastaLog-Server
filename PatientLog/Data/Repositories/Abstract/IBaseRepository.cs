@@ -2,8 +2,9 @@
 
 namespace PatientLog.Data.Repositories.Abstract
 {
-    public interface IBaseRepository<T>
+    public interface IBaseRepository<T> where T : class
     {
+        DbSet<T> Table { get; }
         T GetEntityById(int id);
         List<T> GetAllEntities();
         bool AddEntity(T entity);

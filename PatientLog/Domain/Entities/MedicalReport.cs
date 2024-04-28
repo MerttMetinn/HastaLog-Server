@@ -4,8 +4,11 @@
     {
         public DateTime Date { get; set; }
         public string Path { get; set; }
-        public Patient PatientId { get; set; }
-        public Doctor DoctorId { get; set; }
-        public Appointment AppointmentId { get; set; }
+        public int PatientId { get; set; }
+        public Patient Patient { get; set; }
+        public int DoctorId { get; set; }
+        public Doctor Doctor { get; set; }
+        public int AppointmentId { get; set; }
+        public Appointment Appointment { get; set; }
     }
 }

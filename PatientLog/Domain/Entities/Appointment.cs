@@ -8,8 +8,10 @@
         }
         public DateTime Date { get; set; }
         public string HospitalName { get; set; }
-        public Patient PatientId { get; set; }
-        public Doctor DoctorId { get; set; }
+        public int PatientId { get; set; }
+        public Patient Patient { get; set; }
+        public int DoctorId { get; set; }
+        public Doctor Doctor { get; set; }
         public List<MedicalReport> MedicalReports { get; set; }
     }
 }

@@ -11,6 +11,5 @@ namespace PatientLog.Data.Repositories.Abstract
         bool UpdateEntity(T entity);
         bool DeleteEntity(T entity);
         bool SaveChanges();
-
     }
 }

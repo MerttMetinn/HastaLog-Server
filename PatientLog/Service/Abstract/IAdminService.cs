@@ -9,5 +9,6 @@ namespace PatientLog.Service.Abstract
         AdminGetDto? GetAdminById(int id);
         void DeleteAdmin(AdminDeleteDto adminDeleteDto);
         List<Admin> GetAllAdmins();
+        //void AddDoctor(AdminAddDoctorDto adminAddDoctorDto);
     }
 }

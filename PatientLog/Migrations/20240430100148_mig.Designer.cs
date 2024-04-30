@@ -12,8 +12,8 @@ using PatientLog.Data.Contexts;
 namespace PatientLog.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240428171018_mig1")]
-    partial class mig1
+    [Migration("20240430100148_mig")]
+    partial class mig
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -110,6 +110,9 @@ namespace PatientLog.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("Gender")
+                        .HasColumnType("bit");
+
                     b.Property<string>("HospitalName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -125,9 +128,6 @@ namespace PatientLog.Migrations
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Sex")
-                        .HasColumnType("bit");
 
                     b.Property<string>("SpecializationArea")
                         .IsRequired()
@@ -204,6 +204,9 @@ namespace PatientLog.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("Gender")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -215,9 +218,6 @@ namespace PatientLog.Migrations
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Sex")
-                        .HasColumnType("bit");
 
                     b.Property<string>("Surname")
                         .IsRequired()

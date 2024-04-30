@@ -1,4 +1,5 @@
 ﻿using PatientLog.Data.Repositories.Abstract;
+using PatientLog.Data.Repositories.Concrete;
 using PatientLog.Domain.Dtos.AdminDtos;
 using PatientLog.Domain.Entities;
 using PatientLog.Service.Abstract;
@@ -9,36 +10,34 @@ namespace PatientLog.Service.Concrete
     public class AdminService : IAdminService
     {
 
-        private readonly IAdminRepository _repository;
+        private readonly IAdminRepository _adminRepository;
 
-        public AdminService(IAdminRepository repository)
+        public AdminService(IAdminRepository adminRepository)
         {
-            _repository = repository;
+            _adminRepository = adminRepository;
         }
-
 
         public void AddAdmin(AdminAddDto adminAddDto)
         {
-
             Admin admin = new Admin()
             {
                 CreatedDate = DateTime.Now,
                 Name = adminAddDto.Name,
-                Password = adminAddDto.Password,
                 Surname = adminAddDto.Surname,
+                Email = adminAddDto.Email,
+                Password = adminAddDto.Password,
             };
 
-           //  _repository.AddEntity(admin);
+            //  _repository.AddEntity(admin);
 
-            _repository.Table.Add(admin);
+            _adminRepository.Table.Add(admin);
 
-            _repository.SaveChanges();
-
+            _adminRepository.SaveChanges();
         }
 
         public AdminGetDto? GetAdminById(int id)
         {
-            var admin = _repository.GetEntityById(id);
+            var admin = _adminRepository.GetEntityById(id);
             if(admin == null)
             {
                 return null;
@@ -48,25 +47,48 @@ namespace PatientLog.Service.Concrete
                 Id = id,
                 Name = admin.Name,
                 Surname = admin.Surname,
+                Email = admin.Email,
             };
             return adminGetDto;
         }
 
         public void DeleteAdmin(AdminDeleteDto adminDeleteDto)
         {
-            Admin? admin = _repository.Table.Where(x => x.Id == adminDeleteDto.Id).FirstOrDefault();
+            Admin? admin = _adminRepository.Table.Where(x => x.Id == adminDeleteDto.Id).FirstOrDefault();
             if(admin != null)
             {
-                _repository.Table.Remove(admin);
-                _repository.SaveChanges();
+                _adminRepository.Table.Remove(admin);
+                _adminRepository.SaveChanges();
             }
         }
 
         public List<Admin> GetAllAdmins()
         {
-            var admins = _repository.Table.ToList();
+            var admins = _adminRepository.Table.ToList();
 
             return admins;
         }
+
+        /*public void AddDoctor(AdminAddDoctorDto adminAddDoctorDto)
+        {
+            Doctor doctor = new Doctor()
+            {
+                CreatedDate = DateTime.Now,
+                Name = adminAddDoctorDto.Name,
+                Surname = adminAddDoctorDto.Surname,
+                Email = adminAddDoctorDto.Email,
+                Password = adminAddDoctorDto.Password,
+                BirthDate = adminAddDoctorDto.BirthDate,
+                Gender = adminAddDoctorDto.Gender,
+                PhoneNumber = adminAddDoctorDto.PhoneNumber,
+                Adress = adminAddDoctorDto.Adress,
+                SpecializationArea = adminAddDoctorDto.SpecializationArea,
+                HospitalName = adminAddDoctorDto.HospitalName,
+            };
+
+            _doctorRepository.AddDoctor(doctor);
+        }*/
+
+
     }
 }

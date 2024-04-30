@@ -8,6 +8,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Domain\Dtos\NewFolder1\**" />
+    <Compile Remove="Domain\Dtos\NewFolder\**" />
+    <Content Remove="Domain\Dtos\NewFolder1\**" />
+    <Content Remove="Domain\Dtos\NewFolder\**" />
+    <EmbeddedResource Remove="Domain\Dtos\NewFolder1\**" />
+    <EmbeddedResource Remove="Domain\Dtos\NewFolder\**" />
+    <None Remove="Domain\Dtos\NewFolder1\**" />
+    <None Remove="Domain\Dtos\NewFolder\**" />
+  </ItemGroup>
+
+  <ItemGroup>
 	  <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.1" />
 	  <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.1">
 		  <PrivateAssets>all</PrivateAssets>
@@ -19,6 +30,10 @@
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 	  </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Domain\Dtos\DoctorDtos\" />
   </ItemGroup>
 
 </Project>

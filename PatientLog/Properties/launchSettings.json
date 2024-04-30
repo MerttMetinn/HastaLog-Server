@@ -3,7 +3,7 @@
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
-    "iisExpress": {
+    "iiGenderpress": {
       "applicationUrl": "http://localhost:58942",
       "sslPort": 44391
     }
@@ -30,7 +30,7 @@
       }
     },
     "IIS Express": {
-      "commandName": "IISExpress",
+      "commandName": "IIGenderpress",
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {

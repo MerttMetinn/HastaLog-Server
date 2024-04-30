@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using PatientLog.Data.Repositories.Abstract;
 using PatientLog.Domain.Dtos.AdminDtos;
 using PatientLog.Service.Abstract;
 
@@ -11,10 +12,12 @@ namespace PatientLog.Controllers
     {
 
         private readonly IAdminService _adminService;
+        private readonly IDoctorService _doctorService;
 
-        public AdminsController(IAdminService adminService)
+        public AdminsController(IAdminService adminService, IDoctorService doctorService)
         {
             _adminService = adminService;
+            _doctorService = doctorService;
         }
 
         [HttpPost]
@@ -68,5 +71,6 @@ namespace PatientLog.Controllers
 
             return Ok(admins);
         }
+
     }
 }

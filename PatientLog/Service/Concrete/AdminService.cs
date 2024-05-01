@@ -26,13 +26,12 @@ namespace PatientLog.Service.Concrete
                 Surname = adminAddDto.Surname,
                 Password = adminAddDto.Password,
                 Email = adminAddDto.Email,
+                UpdatedDate = DateTime.Now,
             };
 
-            //  _repository.AddEntity(admin);
+            _adminRepository.AddEntity(admin);
 
-            _adminRepository.Table.Add(admin);
-
-            _adminRepository.SaveChanges();
+        
         }
 
         public AdminGetDto? GetAdminById(Guid id)
@@ -54,17 +53,16 @@ namespace PatientLog.Service.Concrete
 
         public void DeleteAdmin(AdminDeleteDto adminDeleteDto)
         {
-            Admin? admin = _adminRepository.Table.Where(x => x.Id == adminDeleteDto.Id).FirstOrDefault();
+            Admin? admin = _adminRepository.GetEntityById(adminDeleteDto.Id);
             if(admin != null)
             {
-                _adminRepository.Table.Remove(admin);
-                _adminRepository.SaveChanges();
+                _adminRepository.DeleteEntity(admin);
             }
         }
 
         public List<Admin> GetAllAdmins()
         {
-            var admins = _adminRepository.Table.ToList();
+            var admins = _adminRepository.GetAllEntities();
 
             return admins;
         }

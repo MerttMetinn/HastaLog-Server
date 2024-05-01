@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using PatientLog.Domain.Entities;
+﻿using PatientLog.Domain.Entities;
 
 namespace PatientLog.Data.Repositories.Abstract
 {

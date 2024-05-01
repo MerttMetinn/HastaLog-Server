@@ -1,10 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace PatientLog.Data.Repositories.Abstract
+﻿namespace PatientLog.Data.Repositories.Abstract
 {
     public interface IBaseRepository<T> where T : class
     {
-        DbSet<T> Table { get; }
         T GetEntityById(Guid id);
         List<T> GetAllEntities();
         bool AddEntity(T entity);

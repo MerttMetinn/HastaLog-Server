@@ -1,5 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-using PatientLog.Data.Contexts;
 using PatientLog.Data.Repositories.Abstract;
 using PatientLog.Data.Repositories.Concrete;
 using PatientLog.Service.Abstract;
@@ -22,10 +20,6 @@ builder.Services.AddScoped<IAdminRepository, AdminRepository>();
 builder.Services.AddScoped<IAdminService, AdminService>();
 
 
-builder.Services.AddDbContext<AppDbContext>(options =>
-{
-    options.UseSqlServer("Server=localhost, 1433;Database=PatientLogDb;User ID=SA;Password=Sifre0134;TrustServerCertificate=True");
-});
 
 var app = builder.Build();
 

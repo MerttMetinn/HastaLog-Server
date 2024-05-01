@@ -67,6 +67,28 @@ namespace PatientLog.Service.Concrete
             return admins;
         }
 
+        public bool CheckAdminExist(string email, string password)
+        {
+            return _adminRepository.CheckAdminExist(email, password);
+        }
+
+        public AdminGetDto? GetAdminByEmail(string email)
+        {
+            var admin = _adminRepository.GetEntityByEmail(email);
+            if (admin == null)
+            {
+                return null;
+            }
+            AdminGetDto adminGetDto = new AdminGetDto()
+            {
+                Id = admin.Id,
+                Name = admin.Name,
+                Surname = admin.Surname,
+                Email = admin.Email,
+            };
+            return adminGetDto;
+        }
+
         /*public void AddDoctor(AdminAddDoctorDto adminAddDoctorDto)
         {
             Doctor doctor = new Doctor()

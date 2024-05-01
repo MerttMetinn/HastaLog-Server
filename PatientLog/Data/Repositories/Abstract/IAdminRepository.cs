@@ -4,6 +4,8 @@ namespace PatientLog.Data.Repositories.Abstract
 {
     public interface IAdminRepository: IBaseRepository<Admin>
     {
+        Admin GetEntityByEmail(string email);
+        bool CheckAdminExist(string email, string password);
         void ChangeUserPassword(int userId, string password);
     }
 }

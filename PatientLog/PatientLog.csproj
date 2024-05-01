@@ -9,13 +9,9 @@
 
   <ItemGroup>
     <Compile Remove="Domain\Dtos\NewFolder1\**" />
-    <Compile Remove="Domain\Dtos\NewFolder\**" />
     <Content Remove="Domain\Dtos\NewFolder1\**" />
-    <Content Remove="Domain\Dtos\NewFolder\**" />
     <EmbeddedResource Remove="Domain\Dtos\NewFolder1\**" />
-    <EmbeddedResource Remove="Domain\Dtos\NewFolder\**" />
     <None Remove="Domain\Dtos\NewFolder1\**" />
-    <None Remove="Domain\Dtos\NewFolder\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -23,7 +19,8 @@
 	 
     <PackageReference Include="Dapper" Version="2.1.28" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
-    
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0" />
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="7.0.3" />
     
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>

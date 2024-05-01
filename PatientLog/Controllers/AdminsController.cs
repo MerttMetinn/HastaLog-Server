@@ -12,12 +12,10 @@ namespace PatientLog.Controllers
     {
 
         private readonly IAdminService _adminService;
-        private readonly IDoctorService _doctorService;
 
-        public AdminsController(IAdminService adminService, IDoctorService doctorService)
+        public AdminsController(IAdminService adminService)
         {
             _adminService = adminService;
-            _doctorService = doctorService;
         }
 
         [HttpPost]

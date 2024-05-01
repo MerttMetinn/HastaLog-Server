@@ -24,8 +24,8 @@ namespace PatientLog.Service.Concrete
                 CreatedDate = DateTime.Now,
                 Name = adminAddDto.Name,
                 Surname = adminAddDto.Surname,
-                Email = adminAddDto.Email,
                 Password = adminAddDto.Password,
+                Email = adminAddDto.Email,
             };
 
             //  _repository.AddEntity(admin);

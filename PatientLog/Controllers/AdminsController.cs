@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PatientLog.Data.Repositories.Abstract;
 using PatientLog.Domain.Dtos.AdminDtos;
@@ -19,6 +20,7 @@ namespace PatientLog.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles ="admin")]
         public IActionResult AddAdmin([FromBody]AdminAddDto adminAddDto)
         {
             _adminService.AddAdmin(adminAddDto);

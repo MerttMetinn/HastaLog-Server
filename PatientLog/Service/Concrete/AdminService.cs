@@ -35,7 +35,7 @@ namespace PatientLog.Service.Concrete
             _adminRepository.SaveChanges();
         }
 
-        public AdminGetDto? GetAdminById(int id)
+        public AdminGetDto? GetAdminById(Guid id)
         {
             var admin = _adminRepository.GetEntityById(id);
             if(admin == null)

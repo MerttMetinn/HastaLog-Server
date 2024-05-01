@@ -27,7 +27,7 @@ namespace PatientLog.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetAdminById([FromRoute]int id) 
+        public IActionResult GetAdminById([FromRoute]Guid id) 
         {
             try
             {
@@ -45,7 +45,7 @@ namespace PatientLog.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteAdmin([FromRoute] int id)
+        public IActionResult DeleteAdmin([FromRoute] Guid id)
         {
             AdminDeleteDto adminDeleteDto = new AdminDeleteDto()
             {

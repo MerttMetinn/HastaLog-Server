@@ -35,7 +35,7 @@ namespace PatientLog.Data.Repositories.Concrete
             return Table.ToList();
         }
 
-        public T GetEntityById(int id)
+        public T GetEntityById(Guid id)
         {
            return Table.FirstOrDefault(x => x.Id == id);    
         }

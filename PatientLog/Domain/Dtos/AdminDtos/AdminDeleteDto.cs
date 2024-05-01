@@ -2,6 +2,6 @@
 {
     public class AdminDeleteDto
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
     }
 }

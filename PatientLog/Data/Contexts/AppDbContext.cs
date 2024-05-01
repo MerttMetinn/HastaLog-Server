@@ -40,5 +40,7 @@ namespace PatientLog.Data.Contexts
         public DbSet<Patient> Patients { get; set; }
         public DbSet<Appointment> Appointments { get; set; }
         public DbSet<MedicalReport> MedicalReports { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<RoleUser> RoleUsers { get; set; }
     }
 }

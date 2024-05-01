@@ -5,7 +5,7 @@ namespace PatientLog.Data.Repositories.Abstract
     public interface IBaseRepository<T> where T : class
     {
         DbSet<T> Table { get; }
-        T GetEntityById(int id);
+        T GetEntityById(Guid id);
         List<T> GetAllEntities();
         bool AddEntity(T entity);
         bool UpdateEntity(T entity);

@@ -1,8 +1,6 @@
-﻿using PatientLog.Domain.Entities;
-
-namespace PatientLog.Domain.Dtos.AdminDtos
+﻿namespace PatientLog.Domain.Dtos.DoctorDtos
 {
-    public class AdminAddDoctorDto
+    public class DoctorAddDto
     {
         public string Name { get; set; }
         public string Surname { get; set; }

@@ -28,7 +28,6 @@ namespace PatientLog.Data.Repositories.Concrete
 
             connection.Close();
 
-
             return true;
         }
 
@@ -65,12 +64,43 @@ namespace PatientLog.Data.Repositories.Concrete
 
         public bool DeleteEntity(Admin entity)
         {
-            throw new NotImplementedException();
+            var connection = new SqlConnection(ConstVariables.ConnectionString);
+
+            if (connection.State == System.Data.ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+
+            string sql = $@"
+                    DELETE FROM Admins 
+                    WHERE Id = '{entity.Id}';
+                    ";
+
+            connection.Query(sql);
+
+            connection.Close();
+
+            return true;
         }
 
         public List<Admin> GetAllEntities()
         {
-            throw new NotImplementedException();
+            var connection = new SqlConnection(ConstVariables.ConnectionString);
+
+            if (connection.State == System.Data.ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+
+            string sql = @"
+                    SELECT * FROM Admins;
+                    ";
+
+            var admins = connection.Query<Admin>(sql).ToList();
+
+            connection.Close();
+
+            return admins;
         }
 
         public Admin GetEntityByEmail(string email)

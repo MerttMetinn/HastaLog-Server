@@ -30,8 +30,6 @@ namespace PatientLog.Service.Concrete
             };
 
             _adminRepository.AddEntity(admin);
-
-        
         }
 
         public AdminGetDto? GetAdminById(Guid id)
@@ -108,7 +106,5 @@ namespace PatientLog.Service.Concrete
 
             _doctorRepository.AddDoctor(doctor);
         }*/
-
-
     }
 }

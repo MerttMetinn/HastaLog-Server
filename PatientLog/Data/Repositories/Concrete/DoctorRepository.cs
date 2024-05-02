@@ -1,5 +1,8 @@
-﻿using PatientLog.Data.Repositories.Abstract;
+﻿using Dapper;
+using PatientLog.Data.Repositories.Abstract;
+using PatientLog.Domain.Contracts;
 using PatientLog.Domain.Entities;
+using System.Data.SqlClient;
 
 namespace PatientLog.Data.Repositories.Concrete
 {
@@ -7,7 +10,27 @@ namespace PatientLog.Data.Repositories.Concrete
     {
         public bool AddEntity(Doctor entity)
         {
-            throw new NotImplementedException();
+            var connection = new SqlConnection(ConstVariables.ConnectionString);
+
+            if (connection.State == System.Data.ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+
+            string sql = $"""
+                    INSERT INTO Doctors  (Id ,Name , Surname , Email , Password, BirthDate, Gender, 
+                    PhoneNumber, Adress, SpecializationArea, HospitalName, CreatedDate, UpdatedDate)
+                    VALUES ('{Guid.NewGuid()}', '{entity.Name}', '{entity.Surname}', '{entity.Email}', 
+                    '{entity.Password}', '{entity.BirthDate}', '{entity.Gender}', '{entity.PhoneNumber}', 
+                    '{entity.Adress}', '{entity.SpecializationArea}','{entity.HospitalName}','{entity.CreatedDate}',
+                    '{entity.UpdatedDate}');
+                    """;
+
+            connection.Query(sql);
+
+            connection.Close();
+
+            return true;
         }
 
         public bool DeleteEntity(Doctor entity)

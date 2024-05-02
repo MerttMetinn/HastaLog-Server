@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using PatientLog.Data.Repositories.Abstract;
 using PatientLog.Domain.Dtos.AdminDtos;
 using PatientLog.Service.Abstract;
+using System.Security.Claims;
 
 namespace PatientLog.Controllers
 {
@@ -47,19 +48,30 @@ namespace PatientLog.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "admin")]
         public IActionResult DeleteAdmin([FromRoute] Guid id)
         {
+            // Retrieve the current user's ID from the claims
+            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            // Check if the ID being deleted matches the current user's ID
+            if (id.ToString() == currentUserId)
+            {
+                return BadRequest("You are not allowed to delete your own admin account.");
+            }
+
+            // Proceed with deleting the admin
             AdminDeleteDto adminDeleteDto = new AdminDeleteDto()
             {
                 Id = id
             };
-            
+
             _adminService.DeleteAdmin(adminDeleteDto);
             return Ok();
-          
         }
 
         [HttpGet]
+        [Authorize(Roles = "admin")]
         public IActionResult GetAllAdmins()
         {
             var admins = _adminService.GetAllAdmins();

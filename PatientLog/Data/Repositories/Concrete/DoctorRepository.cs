@@ -35,17 +35,67 @@ namespace PatientLog.Data.Repositories.Concrete
 
         public bool DeleteEntity(Doctor entity)
         {
-            throw new NotImplementedException();
+            var connection = new SqlConnection(ConstVariables.ConnectionString);
+
+            if (connection.State == System.Data.ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+
+            string sql = $@"
+                    DELETE FROM Doctors 
+                    WHERE Id = '{entity.Id}';
+                    ";
+
+            connection.Query(sql);
+
+            connection.Close();
+
+            return true;
         }
 
         public List<Doctor> GetAllEntities()
         {
-            throw new NotImplementedException();
+            var connection = new SqlConnection(ConstVariables.ConnectionString);
+
+            if (connection.State == System.Data.ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+
+            string sql = @"
+                    SELECT * FROM Doctors;
+                    ";
+
+            var doctors = connection.Query<Doctor>(sql).ToList();
+
+            connection.Close();
+
+            return doctors;
         }
 
         public Doctor GetEntityById(Guid id)
         {
-            throw new NotImplementedException();
+            var connection = new SqlConnection(ConstVariables.ConnectionString);
+
+            if (connection.State == System.Data.ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+
+            string sql = $"""
+                    select
+                    *
+                    from Doctors d 
+                    where d.Id = '{id}';
+                """;
+
+
+            Doctor? doctor = connection.Query<Doctor>(sql).FirstOrDefault();
+
+            connection.Close();
+
+            return doctor;
         }
 
         public bool SaveChanges()

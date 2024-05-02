@@ -86,25 +86,5 @@ namespace PatientLog.Service.Concrete
             };
             return adminGetDto;
         }
-
-        /*public void AddDoctor(AdminAddDoctorDto adminAddDoctorDto)
-        {
-            Doctor doctor = new Doctor()
-            {
-                CreatedDate = DateTime.Now,
-                Name = adminAddDoctorDto.Name,
-                Surname = adminAddDoctorDto.Surname,
-                Email = adminAddDoctorDto.Email,
-                Password = adminAddDoctorDto.Password,
-                BirthDate = adminAddDoctorDto.BirthDate,
-                Gender = adminAddDoctorDto.Gender,
-                PhoneNumber = adminAddDoctorDto.PhoneNumber,
-                Adress = adminAddDoctorDto.Adress,
-                SpecializationArea = adminAddDoctorDto.SpecializationArea,
-                HospitalName = adminAddDoctorDto.HospitalName,
-            };
-
-            _doctorRepository.AddDoctor(doctor);
-        }*/
     }
 }

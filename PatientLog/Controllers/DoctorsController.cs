@@ -29,5 +29,52 @@ namespace PatientLog.Controllers
 
             return Ok();
         }
+
+        [HttpDelete("{id}")]
+        [Authorize(Roles = "admin")]
+        public IActionResult DeleteDoctor([FromRoute] Guid id)
+        {
+            DoctorDeleteDto doctorDeleteDto = new DoctorDeleteDto()
+            {
+                Id = id
+            };
+
+            _doctorservice.DeleteDoctor(doctorDeleteDto);
+            return Ok();
+        }
+
+        
+        [HttpGet("{id}")]
+        [Authorize(Roles = "admin")]
+        public IActionResult GetDoctorById(Guid id)
+        {
+            try
+            {
+                var doctor = _doctorservice.GetDoctorById(id);
+                if (doctor == null)
+                {
+                    return BadRequest("Admin not found");
+                }
+                return Ok(doctor);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while processing your request.");
+            }
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "admin")]
+        public IActionResult GetAllDoctors()
+        {
+            var doctors = _doctorservice.GetAllDoctors();
+
+            if (doctors == null || !doctors.Any())
+            {
+                return NotFound("No doctors found matching the provided criteria.");
+            }
+
+            return Ok(doctors);
+        }
     }
 }

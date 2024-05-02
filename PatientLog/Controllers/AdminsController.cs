@@ -29,7 +29,28 @@ namespace PatientLog.Controllers
             return Ok();
         }
 
+        [HttpDelete("{id}")]
+        [Authorize(Roles = "admin")]
+        public IActionResult DeleteAdmin([FromRoute] Guid id)
+        {
+            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (id.ToString() == currentUserId)
+            {
+                return BadRequest("You are not allowed to delete your own admin account.");
+            }
+
+            AdminDeleteDto adminDeleteDto = new AdminDeleteDto()
+            {
+                Id = id
+            };
+
+            _adminService.DeleteAdmin(adminDeleteDto);
+            return Ok();
+        }
+
         [HttpGet("{id}")]
+        [Authorize(Roles = "admin")]
         public IActionResult GetAdminById([FromRoute]Guid id) 
         {
             try
@@ -47,29 +68,6 @@ namespace PatientLog.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
-        [Authorize(Roles = "admin")]
-        public IActionResult DeleteAdmin([FromRoute] Guid id)
-        {
-            // Retrieve the current user's ID from the claims
-            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
-            // Check if the ID being deleted matches the current user's ID
-            if (id.ToString() == currentUserId)
-            {
-                return BadRequest("You are not allowed to delete your own admin account.");
-            }
-
-            // Proceed with deleting the admin
-            AdminDeleteDto adminDeleteDto = new AdminDeleteDto()
-            {
-                Id = id
-            };
-
-            _adminService.DeleteAdmin(adminDeleteDto);
-            return Ok();
-        }
-
         [HttpGet]
         [Authorize(Roles = "admin")]
         public IActionResult GetAllAdmins()
@@ -83,6 +81,5 @@ namespace PatientLog.Controllers
 
             return Ok(admins);
         }
-
     }
 }

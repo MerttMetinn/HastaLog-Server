@@ -157,7 +157,6 @@ namespace PatientLog.Data.Repositories.Concrete
             connection.Close();
 
             return admin;
-
         }
 
         public bool SaveChanges()

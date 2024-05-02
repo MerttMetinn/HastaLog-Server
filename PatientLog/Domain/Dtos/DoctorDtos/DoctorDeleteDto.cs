@@ -3,6 +3,5 @@
     public class DoctorDeleteDto
     {
         public Guid Id { get; set; }
-
     }
 }

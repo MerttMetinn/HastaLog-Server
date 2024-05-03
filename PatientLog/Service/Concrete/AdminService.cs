@@ -1,9 +1,7 @@
 ﻿using PatientLog.Data.Repositories.Abstract;
-using PatientLog.Data.Repositories.Concrete;
 using PatientLog.Domain.Dtos.AdminDtos;
 using PatientLog.Domain.Entities;
 using PatientLog.Service.Abstract;
-using System.Linq;
 
 namespace PatientLog.Service.Concrete
 {

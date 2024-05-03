@@ -11,7 +11,5 @@ namespace PatientLog.Service.Abstract
         void DeleteAdmin(AdminDeleteDto adminDeleteDto);
         List<Admin> GetAllAdmins();
         bool CheckAdminExist(string email, string password);
-
-        //void AddDoctor(AdminAddDoctorDto adminAddDoctorDto);
     }
 }

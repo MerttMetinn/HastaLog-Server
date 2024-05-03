@@ -28,7 +28,7 @@ namespace PatientLog.Service.Concrete
                 BirthDate = doctorAddDto.BirthDate,
                 Gender = doctorAddDto.Gender,
                 PhoneNumber = doctorAddDto.PhoneNumber,
-                Adress = doctorAddDto.Adress,
+                Address = doctorAddDto.Address,
                 SpecializationArea = doctorAddDto.SpecializationArea,
                 HospitalName = doctorAddDto.HospitalName,
                 CreatedDate = DateTime.Now,
@@ -71,7 +71,7 @@ namespace PatientLog.Service.Concrete
                 BirthDate = doctor.BirthDate,
                 Gender = doctor.Gender,
                 PhoneNumber = doctor.PhoneNumber,
-                Adress = doctor.Adress,
+                Address = doctor.Address,
                 SpecializationArea = doctor.SpecializationArea,
                 HospitalName = doctor.HospitalName,
             };

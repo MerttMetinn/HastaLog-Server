@@ -53,7 +53,7 @@ namespace PatientLog.Controllers
                 var doctor = _doctorservice.GetDoctorById(id);
                 if (doctor == null)
                 {
-                    return BadRequest("Admin not found");
+                    return BadRequest("Doctor not found");
                 }
                 return Ok(doctor);
             }

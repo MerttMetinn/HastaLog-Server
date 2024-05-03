@@ -6,9 +6,9 @@ using System.Data.SqlClient;
 
 namespace PatientLog.Data.Repositories.Concrete
 {
-    public class DoctorRepository : IDoctorRepository
+    public class PatientRepository : IPatientRepository
     {
-        public bool AddEntity(Doctor entity)
+        public bool AddEntity(Patient entity)
         {
             var connection = new SqlConnection(ConstVariables.ConnectionString);
 
@@ -18,12 +18,11 @@ namespace PatientLog.Data.Repositories.Concrete
             }
 
             string sql = $"""
-                    INSERT INTO Doctors  (Id ,Name , Surname , Email , Password, BirthDate, Gender, 
-                    PhoneNumber, Address, SpecializationArea, HospitalName, CreatedDate, UpdatedDate)
+                    INSERT INTO Patients  (Id ,Name , Surname , Email , Password, BirthDate, Gender, 
+                    PhoneNumber, Address, CreatedDate, UpdatedDate)
                     VALUES ('{Guid.NewGuid()}', '{entity.Name}', '{entity.Surname}', '{entity.Email}', 
                     '{entity.Password}', '{entity.BirthDate}', '{entity.Gender}', '{entity.PhoneNumber}', 
-                    '{entity.Address}', '{entity.SpecializationArea}','{entity.HospitalName}','{entity.CreatedDate}',
-                    '{entity.UpdatedDate}');
+                    '{entity.Address}', '{entity.CreatedDate}','{entity.UpdatedDate}');
                     """;
 
             connection.Query(sql);
@@ -33,7 +32,7 @@ namespace PatientLog.Data.Repositories.Concrete
             return true;
         }
 
-        public bool DeleteEntity(Doctor entity)
+        public bool DeleteEntity(Patient entity)
         {
             var connection = new SqlConnection(ConstVariables.ConnectionString);
 
@@ -43,7 +42,7 @@ namespace PatientLog.Data.Repositories.Concrete
             }
 
             string sql = $@"
-                    DELETE FROM Doctors 
+                    DELETE FROM Patients 
                     WHERE Id = '{entity.Id}';
                     ";
 
@@ -54,7 +53,7 @@ namespace PatientLog.Data.Repositories.Concrete
             return true;
         }
 
-        public List<Doctor> GetAllEntities()
+        public List<Patient> GetAllEntities()
         {
             var connection = new SqlConnection(ConstVariables.ConnectionString);
 
@@ -64,17 +63,17 @@ namespace PatientLog.Data.Repositories.Concrete
             }
 
             string sql = @"
-                    SELECT * FROM Doctors;
+                    SELECT * FROM Patients;
                     ";
 
-            var doctors = connection.Query<Doctor>(sql).ToList();
+            var patients = connection.Query<Patient>(sql).ToList();
 
             connection.Close();
 
-            return doctors;
+            return patients;
         }
 
-        public Doctor GetEntityById(Guid id)
+        public Patient GetEntityById(Guid id)
         {
             var connection = new SqlConnection(ConstVariables.ConnectionString);
 
@@ -86,16 +85,16 @@ namespace PatientLog.Data.Repositories.Concrete
             string sql = $"""
                     select
                     *
-                    from Doctors d 
-                    where d.Id = '{id}';
+                    from Patients p 
+                    where p.Id = '{id}';
                 """;
 
 
-            Doctor? doctor = connection.Query<Doctor>(sql).FirstOrDefault();
+            Patient? patient = connection.Query<Patient>(sql).FirstOrDefault();
 
             connection.Close();
 
-            return doctor;
+            return patient;
         }
 
         public bool SaveChanges()
@@ -103,7 +102,7 @@ namespace PatientLog.Data.Repositories.Concrete
             throw new NotImplementedException();
         }
 
-        public bool UpdateEntity(Doctor entity)
+        public bool UpdateEntity(Patient entity)
         {
             throw new NotImplementedException();
         }

@@ -1,11 +1,7 @@
-﻿namespace PatientLog.Domain.Entities
+﻿namespace PatientLog.Domain.Dtos.PatientDtos
 {
-    public class Patient: BaseEntity
+    public class PatientAddDto
     {
-        public Patient() {
-            Appointments = new List<Appointment>();
-            MedicalReports = new List<MedicalReport>();
-        }
         public string Name { get; set; }
         public string Surname { get; set; }
         public string Email { get; set; }
@@ -14,7 +10,5 @@
         public bool Gender { get; set; }
         public string PhoneNumber { get; set; }
         public string Address { get; set; }
-        public List<Appointment> Appointments { get; set; }
-        public List<MedicalReport> MedicalReports { get; set; }
     }
 }

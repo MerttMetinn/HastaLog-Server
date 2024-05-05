@@ -38,7 +38,6 @@ namespace PatientLog.Data.Repositories.Concrete
 
         public bool CheckAdminExist(string email, string password)
         {
- 
             var connection = new SqlConnection(ConstVariables.ConnectionString);
 
             if (connection.State == System.Data.ConnectionState.Closed)

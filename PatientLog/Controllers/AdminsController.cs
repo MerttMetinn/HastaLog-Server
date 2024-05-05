@@ -12,7 +12,6 @@ namespace PatientLog.Controllers
     [ApiController]
     public class AdminsController : ControllerBase
     {
-
         private readonly IAdminService _adminService;
 
         public AdminsController(IAdminService adminService)

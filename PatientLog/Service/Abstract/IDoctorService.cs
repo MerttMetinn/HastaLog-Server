@@ -1,5 +1,4 @@
-﻿using PatientLog.Domain.Dtos.AdminDtos;
-using PatientLog.Domain.Dtos.DoctorDtos;
+﻿using PatientLog.Domain.Dtos.DoctorDtos;
 using PatientLog.Domain.Entities;
 
 namespace PatientLog.Service.Abstract

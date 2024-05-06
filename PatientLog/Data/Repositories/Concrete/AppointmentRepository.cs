@@ -19,7 +19,8 @@ namespace PatientLog.Data.Repositories.Concrete
             //Düzeltilecek
             string sql = $"""
                     INSERT INTO Appointments  (Id ,Date , HospitalName , PatientId , DoctorId , CreatedDate, UpdatedDate)
-                    VALUES ('{Guid.NewGuid()}', '{entity.Date}', '{entity.HospitalName}', '{entity.PatientId}', '{entity.DoctorId}', '{entity.CreatedDate}', '{entity.UpdatedDate}');
+                    VALUES ('{Guid.NewGuid()}', '{entity.Date}', '{entity.HospitalName}', '{entity.PatientId}', '{entity.DoctorId}',
+                    '{entity.CreatedDate}', '{entity.UpdatedDate}');
                 """;
 
             connection.Query(sql);

@@ -22,7 +22,7 @@ namespace PatientLog.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "patient")]
         public IActionResult AddAppointment([FromBody] AppointmentAddDto appointmentAddDto)
         {
             _appointmentservice.AddAppointment(appointmentAddDto);
@@ -31,7 +31,7 @@ namespace PatientLog.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "patient")]
         public IActionResult DeleteAppointment([FromRoute] Guid id)
         {
             AppointmentDeleteDto appointmentDeleteDto = new AppointmentDeleteDto()
@@ -45,7 +45,7 @@ namespace PatientLog.Controllers
 
 
         [HttpGet("{id}")]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "patient")]
         public IActionResult GetAppointmentById(Guid id)
         {
             try
@@ -64,7 +64,7 @@ namespace PatientLog.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "patient")]
         public IActionResult GetAllAppointments()
         {
             var appointments = _appointmentservice.GetAllAppointments();

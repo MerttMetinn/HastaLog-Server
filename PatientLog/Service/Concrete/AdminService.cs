@@ -7,14 +7,11 @@ namespace PatientLog.Service.Concrete
 {
     public class AdminService : IAdminService
     {
-
         private readonly IAdminRepository _adminRepository;
-
         public AdminService(IAdminRepository adminRepository)
         {
             _adminRepository = adminRepository;
         }
-
         public void AddAdmin(AdminAddDto adminAddDto)
         {
             Admin admin = new Admin()
@@ -29,7 +26,14 @@ namespace PatientLog.Service.Concrete
 
             _adminRepository.AddEntity(admin);
         }
-
+        public void DeleteAdmin(AdminDeleteDto adminDeleteDto)
+        {
+            Admin? admin = _adminRepository.GetEntityById(adminDeleteDto.Id);
+            if(admin != null)
+            {
+                _adminRepository.DeleteEntity(admin);
+            }
+        }
         public AdminGetDto? GetAdminById(Guid id)
         {
             var admin = _adminRepository.GetEntityById(id);
@@ -46,28 +50,16 @@ namespace PatientLog.Service.Concrete
             };
             return adminGetDto;
         }
-
-        public void DeleteAdmin(AdminDeleteDto adminDeleteDto)
-        {
-            Admin? admin = _adminRepository.GetEntityById(adminDeleteDto.Id);
-            if(admin != null)
-            {
-                _adminRepository.DeleteEntity(admin);
-            }
-        }
-
         public List<Admin> GetAllAdmins()
         {
             var admins = _adminRepository.GetAllEntities();
 
             return admins;
         }
-
         public bool CheckAdminExist(string email, string password)
         {
             return _adminRepository.CheckAdminExist(email, password);
         }
-
         public AdminGetDto? GetAdminByEmail(string email)
         {
             var admin = _adminRepository.GetEntityByEmail(email);

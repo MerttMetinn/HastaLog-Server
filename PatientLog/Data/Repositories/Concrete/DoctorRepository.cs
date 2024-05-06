@@ -32,7 +32,6 @@ namespace PatientLog.Data.Repositories.Concrete
 
             return true;
         }
-
         public bool DeleteEntity(Doctor entity)
         {
             var connection = new SqlConnection(ConstVariables.ConnectionString);
@@ -53,7 +52,6 @@ namespace PatientLog.Data.Repositories.Concrete
 
             return true;
         }
-
         public List<Doctor> GetAllEntities()
         {
             var connection = new SqlConnection(ConstVariables.ConnectionString);
@@ -73,7 +71,6 @@ namespace PatientLog.Data.Repositories.Concrete
 
             return doctors;
         }
-
         public Doctor GetEntityById(Guid id)
         {
             var connection = new SqlConnection(ConstVariables.ConnectionString);
@@ -97,15 +94,62 @@ namespace PatientLog.Data.Repositories.Concrete
 
             return doctor;
         }
-
-        public bool SaveChanges()
+        public Doctor GetEntityByEmail(string email)
         {
-            throw new NotImplementedException();
+            var connection = new SqlConnection(ConstVariables.ConnectionString);
+
+            if (connection.State == System.Data.ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+
+            string sql = $"""
+                    select
+                    d.Id  as Id,
+                    d.Name  as Name,
+                    d.Surname as Surname ,
+                    d.Email  as Email ,
+                    d.BirthDate as BirthDate,
+                    d.Gender as Gender,
+                    d.PhoneNumber as PhoneNumber,
+                    d.Address as Address,
+                    d.SpecializationArea as SpecializationArea,
+                    d.HospitalName as HospitalName,
+                    d.CreatedDate as CreatedDate
+                    from Doctors d 
+                    where d.Email = '{email}';
+                """;
+
+
+            Doctor? doctor = connection.Query<Doctor>(sql).FirstOrDefault();
+
+            connection.Close();
+
+            return doctor;
         }
-
-        public bool UpdateEntity(Doctor entity)
+        public bool CheckDoctorExist(string email, string password)
         {
-            throw new NotImplementedException();
+            var connection = new SqlConnection(ConstVariables.ConnectionString);
+
+            if (connection.State == System.Data.ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+
+            string sql = $"""
+                        SELECT
+                        Count(*)
+                        FROM Doctors d
+                        where d.Email = '{email}'
+                        and d.Password = '{password}';
+                """;
+
+
+            int count = connection.Query<int>(sql).FirstOrDefault();
+
+            connection.Close();
+
+            return count >= 1;
         }
     }
 }

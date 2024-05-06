@@ -1,4 +1,5 @@
-﻿using PatientLog.Data.Repositories.Abstract;
+﻿using Dapper;
+using PatientLog.Data.Repositories.Abstract;
 using PatientLog.Domain.Entities;
 
 namespace PatientLog.Data.Repositories.Concrete
@@ -21,16 +22,6 @@ namespace PatientLog.Data.Repositories.Concrete
         }
 
         public MedicalReport GetEntityById(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool SaveChanges()
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool UpdateEntity(MedicalReport entity)
         {
             throw new NotImplementedException();
         }

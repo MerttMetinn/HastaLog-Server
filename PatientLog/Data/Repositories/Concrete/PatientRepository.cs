@@ -31,7 +31,6 @@ namespace PatientLog.Data.Repositories.Concrete
 
             return true;
         }
-
         public bool DeleteEntity(Patient entity)
         {
             var connection = new SqlConnection(ConstVariables.ConnectionString);
@@ -52,7 +51,6 @@ namespace PatientLog.Data.Repositories.Concrete
 
             return true;
         }
-
         public List<Patient> GetAllEntities()
         {
             var connection = new SqlConnection(ConstVariables.ConnectionString);
@@ -72,7 +70,6 @@ namespace PatientLog.Data.Repositories.Concrete
 
             return patients;
         }
-
         public Patient GetEntityById(Guid id)
         {
             var connection = new SqlConnection(ConstVariables.ConnectionString);
@@ -96,15 +93,60 @@ namespace PatientLog.Data.Repositories.Concrete
 
             return patient;
         }
-
-        public bool SaveChanges()
+        public Patient GetEntityByEmail(string email)
         {
-            throw new NotImplementedException();
+            var connection = new SqlConnection(ConstVariables.ConnectionString);
+
+            if (connection.State == System.Data.ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+
+            string sql = $"""
+                    select
+                    p.Id  as Id,
+                    p.Name  as Name,
+                    p.Surname as Surname ,
+                    p.Email  as Email ,
+                    p.BirthDate as BirthDate,
+                    p.Gender as Gender,
+                    p.PhoneNumber as PhoneNumber,
+                    p.Address as Address,
+                    p.CreatedDate as CreatedDate
+                    from Patients p 
+                    where p.Email = '{email}';
+                """;
+
+
+            Patient? patient = connection.Query<Patient>(sql).FirstOrDefault();
+
+            connection.Close();
+
+            return patient;
         }
-
-        public bool UpdateEntity(Patient entity)
+        public bool CheckPatientExist(string email, string password)
         {
-            throw new NotImplementedException();
+            var connection = new SqlConnection(ConstVariables.ConnectionString);
+
+            if (connection.State == System.Data.ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+
+            string sql = $"""
+                        SELECT
+                        Count(*)
+                        FROM Patients p
+                        where p.Email = '{email}'
+                        and p.Password = '{password}';
+                """;
+
+
+            int count = connection.Query<int>(sql).FirstOrDefault();
+
+            connection.Close();
+
+            return count >= 1;
         }
     }
 }

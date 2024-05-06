@@ -6,6 +6,5 @@ namespace PatientLog.Data.Repositories.Abstract
     {
         Admin GetEntityByEmail(string email);
         bool CheckAdminExist(string email, string password);
-        void ChangeUserPassword(int userId, string password);
     }
 }

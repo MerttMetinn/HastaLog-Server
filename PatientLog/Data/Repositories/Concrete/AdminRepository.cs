@@ -1,5 +1,4 @@
-﻿
-using Dapper;
+﻿using Dapper;
 using PatientLog.Data.Repositories.Abstract;
 using PatientLog.Domain.Contracts;
 using PatientLog.Domain.Entities;
@@ -9,7 +8,6 @@ namespace PatientLog.Data.Repositories.Concrete
 {
     public class AdminRepository : IAdminRepository
     {
-
         public bool AddEntity(Admin entity)
         {
             var connection = new SqlConnection(ConstVariables.ConnectionString);
@@ -30,37 +28,6 @@ namespace PatientLog.Data.Repositories.Concrete
 
             return true;
         }
-
-        public void ChangeUserPassword(int userId, string password)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool CheckAdminExist(string email, string password)
-        {
-            var connection = new SqlConnection(ConstVariables.ConnectionString);
-
-            if (connection.State == System.Data.ConnectionState.Closed)
-            {
-                connection.Open();
-            }
-
-            string sql = $"""
-                        SELECT
-                        Count(*)
-                        FROM Admins a
-                        where a.Email = '{email}'
-                        and a.Password = '{password}';
-                """;
-
-
-            int count = connection.Query<int>(sql).FirstOrDefault();
-
-            connection.Close();
-
-            return count >= 1;
-        }
-
         public bool DeleteEntity(Admin entity)
         {
             var connection = new SqlConnection(ConstVariables.ConnectionString);
@@ -81,7 +48,6 @@ namespace PatientLog.Data.Repositories.Concrete
 
             return true;
         }
-
         public List<Admin> GetAllEntities()
         {
             var connection = new SqlConnection(ConstVariables.ConnectionString);
@@ -101,35 +67,6 @@ namespace PatientLog.Data.Repositories.Concrete
 
             return admins;
         }
-
-        public Admin GetEntityByEmail(string email)
-        {
-            var connection = new SqlConnection(ConstVariables.ConnectionString);
-
-            if (connection.State == System.Data.ConnectionState.Closed)
-            {
-                connection.Open();
-            }
-
-            string sql = $"""
-                    select
-                    a.Id  as Id,
-                    a.Name  as Name,
-                    a.Surname as Surname ,
-                    a.Email  as Email ,
-                    a.CreatedDate as CreatedDate
-                    from Admins a 
-                    where a.Email = '{email}';
-                """;
-
-
-            Admin? admin = connection.Query<Admin>(sql).FirstOrDefault();
-
-            connection.Close();
-
-            return admin;
-        }
-
         public Admin GetEntityById(Guid id)
         {
             var connection = new SqlConnection(ConstVariables.ConnectionString);
@@ -157,15 +94,56 @@ namespace PatientLog.Data.Repositories.Concrete
 
             return admin;
         }
-
-        public bool SaveChanges()
+        public Admin GetEntityByEmail(string email)
         {
-            throw new NotImplementedException();
+            var connection = new SqlConnection(ConstVariables.ConnectionString);
+
+            if (connection.State == System.Data.ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+
+            string sql = $"""
+                    select
+                    a.Id  as Id,
+                    a.Name  as Name,
+                    a.Surname as Surname ,
+                    a.Email  as Email ,
+                    a.CreatedDate as CreatedDate
+                    from Admins a 
+                    where a.Email = '{email}';
+                """;
+
+
+            Admin? admin = connection.Query<Admin>(sql).FirstOrDefault();
+
+            connection.Close();
+
+            return admin;
         }
-
-        public bool UpdateEntity(Admin entity)
+        public bool CheckAdminExist(string email, string password)
         {
-            throw new NotImplementedException();
+            var connection = new SqlConnection(ConstVariables.ConnectionString);
+
+            if (connection.State == System.Data.ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+
+            string sql = $"""
+                        SELECT
+                        Count(*)
+                        FROM Admins a
+                        where a.Email = '{email}'
+                        and a.Password = '{password}';
+                """;
+
+
+            int count = connection.Query<int>(sql).FirstOrDefault();
+
+            connection.Close();
+
+            return count >= 1;
         }
     }
 }

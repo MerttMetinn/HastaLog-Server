@@ -1,4 +1,5 @@
-﻿using PatientLog.Domain.Dtos.PatientDtos;
+﻿using PatientLog.Domain.Dtos.DoctorDtos;
+using PatientLog.Domain.Dtos.PatientDtos;
 using PatientLog.Domain.Entities;
 
 namespace PatientLog.Service.Abstract
@@ -9,5 +10,7 @@ namespace PatientLog.Service.Abstract
         void DeletePatient(PatientDeleteDto patientDeleteDto);
         List<Patient> GetAllPatients();
         PatientGetDto? GetPatientById(Guid id);
+        PatientGetDto? GetPatientByEmail(string email);
+        bool CheckPatientExist(string email, string password);
     }
 }

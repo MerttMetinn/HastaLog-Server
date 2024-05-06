@@ -5,6 +5,7 @@ using PatientLog.Domain.Dtos.AppointmentDtos;
 using PatientLog.Domain.Dtos.DoctorDtos;
 using PatientLog.Domain.Entities;
 using PatientLog.Service.Abstract;
+using System.Collections.Generic;
 
 namespace PatientLog.Service.Concrete
 {
@@ -12,14 +13,28 @@ namespace PatientLog.Service.Concrete
     {
 
         private readonly IAppointmentRepository _appointmentRepository;
+        private readonly IDoctorService _doctorService;
+        private readonly IPatientService _petientService;
 
-        public AppointmentService(IAppointmentRepository appointmentRepository)
+        public AppointmentService(IAppointmentRepository appointmentRepository, IDoctorService doctorService, IPatientService petientService)
         {
             _appointmentRepository = appointmentRepository;
+            _doctorService = doctorService;
+            _petientService = petientService;
         }
 
-        public void AddAppointment(AppointmentAddDto appointmentAddDto)
+        public  void AddAppointment(AppointmentAddDto appointmentAddDto)
         {
+
+            var doctor =  _doctorService.GetDoctorById(appointmentAddDto.DoctorId);
+
+            if(doctor == null)
+            {
+                throw new Exception("Doktor bulunamadı.");
+            }
+
+            // -> patient
+
             Appointment appointment = new Appointment()
             {
                 CreatedDate = DateTime.Now,
@@ -46,6 +61,44 @@ namespace PatientLog.Service.Concrete
             var appointments = _appointmentRepository.GetAllEntities();
 
             return appointments;
+        }
+
+        public List<AppointmentGetDto> GetAllAppointmentsByPatientId(Guid patientId)
+        {
+            var appointments = _appointmentRepository.GetAllAppointmentByPatientId(patientId);
+
+            List<AppointmentGetDto> result = new();
+
+            foreach (Appointment appointment in appointments)
+            {
+                AppointmentGetDto appointmentGetDto = new()
+                {
+                    PatientId = appointment.PatientId,
+                    Date = appointment.Date,
+                    DoctorId = appointment.DoctorId,
+                    HospitalName = appointment.HospitalName,
+                    Id = appointment.Id
+                };
+
+                result.Add(appointmentGetDto);
+
+            }
+
+            // yontem 2
+
+            //var reult2 = appointments.Select(appointment =>
+            //{
+            //    return new AppointmentGetDto()
+            //    {
+            //        PatientId = appointment.PatientId,
+            //        Date = appointment.Date,
+            //        DoctorId = appointment.DoctorId,
+            //        HospitalName = appointment.HospitalName,
+            //        Id = appointment.Id
+            //    };
+            //}).ToList();
+
+            return result;
         }
 
         public AppointmentGetDto? GetAppointmentById(Guid id)

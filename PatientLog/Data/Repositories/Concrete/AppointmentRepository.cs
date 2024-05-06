@@ -51,6 +51,26 @@ namespace PatientLog.Data.Repositories.Concrete
             return true;
         }
 
+        public List<Appointment> GetAllAppointmentByPatientId(Guid patientId)
+        {
+            var connection = new SqlConnection(ConstVariables.ConnectionString);
+
+            if (connection.State == System.Data.ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+
+            string sql = $@"
+                    SELECT * FROM Appointments WHERE PatientId = '{patientId}';
+                    ";
+
+            var appointments = connection.Query<Appointment>(sql).ToList();
+
+            connection.Close();
+
+            return appointments;
+        }
+
         public List<Appointment> GetAllEntities()
         {
             var connection = new SqlConnection(ConstVariables.ConnectionString);

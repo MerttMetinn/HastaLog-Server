@@ -17,15 +17,16 @@ namespace PatientLog.Data.Repositories.Concrete
                 connection.Open();
             }
 
+
             string sql = $"""
                     INSERT INTO Patients  (Id ,Name , Surname , Email , Password, BirthDate, Gender, 
                     PhoneNumber, Address, CreatedDate, UpdatedDate)
                     VALUES ('{Guid.NewGuid()}', '{entity.Name}', '{entity.Surname}', '{entity.Email}', 
-                    '{entity.Password}', '{entity.BirthDate}', '{entity.Gender}', '{entity.PhoneNumber}', 
-                    '{entity.Address}', '{entity.CreatedDate}','{entity.UpdatedDate}');
+                    '{entity.Password}', @birthDate, '{entity.Gender}', '{entity.PhoneNumber}', 
+                    '{entity.Address}', @createdDate, @updatedDate);
                     """;
 
-            connection.Query(sql);
+            connection.Query(sql, new { birthDate = entity.BirthDate, createdDate = entity.CreatedDate, updatedDate = entity.UpdatedDate});
 
             connection.Close();
 

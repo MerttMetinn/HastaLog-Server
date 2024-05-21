@@ -14,18 +14,17 @@ namespace PatientLog.Service.Concrete
 
         private readonly IAppointmentRepository _appointmentRepository;
         private readonly IDoctorService _doctorService;
-        private readonly IPatientService _petientService;
+        private readonly IPatientService _patientService;
 
-        public AppointmentService(IAppointmentRepository appointmentRepository, IDoctorService doctorService, IPatientService petientService)
+        public AppointmentService(IAppointmentRepository appointmentRepository, IDoctorService doctorService, IPatientService patientService)
         {
             _appointmentRepository = appointmentRepository;
             _doctorService = doctorService;
-            _petientService = petientService;
+            _patientService = patientService;
         }
 
-        public  void AddAppointment(AppointmentAddDto appointmentAddDto)
+        public void AddAppointment(AppointmentAddDto appointmentAddDto)
         {
-
             var doctor =  _doctorService.GetDoctorById(appointmentAddDto.DoctorId);
 
             if(doctor == null)
@@ -33,7 +32,12 @@ namespace PatientLog.Service.Concrete
                 throw new Exception("Doktor bulunamadı.");
             }
 
-            // -> patient
+            var patient = _patientService.GetPatientById(appointmentAddDto.PatientId);
+
+            if(patient == null)
+            {
+                throw new Exception("Hasta bulunamadı.");
+            }
 
             Appointment appointment = new Appointment()
             {
@@ -43,8 +47,14 @@ namespace PatientLog.Service.Concrete
                 DoctorId = appointmentAddDto.DoctorId,
                 HospitalName = appointmentAddDto.HospitalName,
                 Date = appointmentAddDto.Date,
+                Clinic = appointmentAddDto.Clinic,
             };
             _appointmentRepository.AddEntity(appointment);
+        }
+
+        public bool CheckAppointmentDate(AppointmentGetDto appointmentGetDto)
+        {
+            return _appointmentRepository.CheckAppointmentDate(appointmentGetDto);
         }
 
         public void DeleteAppointment(AppointmentDeleteDto appointmentDeleteDto)
@@ -63,9 +73,9 @@ namespace PatientLog.Service.Concrete
             return appointments;
         }
 
-        public List<AppointmentGetDto> GetAllAppointmentsByPatientId(Guid patientId)
+        public List<AppointmentGetDto> GetAppointmentsByPatientId(Guid patientId)
         {
-            var appointments = _appointmentRepository.GetAllAppointmentByPatientId(patientId);
+            var appointments = _appointmentRepository.GetAppointmentsByPatientId(patientId);
 
             List<AppointmentGetDto> result = new();
 
@@ -77,11 +87,11 @@ namespace PatientLog.Service.Concrete
                     Date = appointment.Date,
                     DoctorId = appointment.DoctorId,
                     HospitalName = appointment.HospitalName,
-                    Id = appointment.Id
+                    Id = appointment.Id,
+                    Clinic = appointment.Clinic,
                 };
 
                 result.Add(appointmentGetDto);
-
             }
 
             // yontem 2
@@ -115,6 +125,7 @@ namespace PatientLog.Service.Concrete
                 DoctorId = appointment.DoctorId,
                 HospitalName = appointment.HospitalName,
                 Date = appointment.Date,
+                Clinic = appointment.Clinic,
             };
             return appointmentGetDto;
         }

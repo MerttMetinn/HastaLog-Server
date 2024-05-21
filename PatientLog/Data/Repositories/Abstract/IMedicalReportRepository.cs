@@ -4,6 +4,5 @@ namespace PatientLog.Data.Repositories.Abstract
 {
     public interface IMedicalReportRepository : IBaseRepository<MedicalReport>
     {
-        
     }
 }

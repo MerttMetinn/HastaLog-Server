@@ -39,6 +39,13 @@ namespace PatientLog.Controllers
                 return BadRequest("You are not allowed to delete your own admin account.");
             }
 
+            var admin = _adminService.GetAdminById(id);
+
+            if (admin == null)
+            {
+                return BadRequest("Admin not found");
+            }
+
             AdminDeleteDto adminDeleteDto = new AdminDeleteDto()
             {
                 Id = id

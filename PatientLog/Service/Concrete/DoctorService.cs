@@ -96,5 +96,38 @@ namespace PatientLog.Service.Concrete
             };
             return doctorGetDto;
         }
+
+        public List<Doctor> GetAllDoctorsBySpecializationArea(string SpecializationArea, string HospitalName)
+        {
+            var doctors = _doctorRepository.GetAllDoctorsBySpecializationArea(SpecializationArea, HospitalName);
+            
+            return doctors;
+        }
+
+        public DoctorGetDto? GetDoctorByFullName(string name, string surname)
+        {
+            var doctor = _doctorRepository.GetEntityByFullName(name, surname);
+
+            if (doctor == null)
+            {
+                return null;
+            }
+
+            DoctorGetDto doctorGetDto = new DoctorGetDto()
+            {
+                Id = doctor.Id,
+                Name = doctor.Name,
+                Surname = doctor.Surname,
+                Email = doctor.Email,
+                Password = doctor.Password,
+                BirthDate = doctor.BirthDate,
+                Gender = doctor.Gender,
+                PhoneNumber = doctor.PhoneNumber,
+                Address = doctor.Address,
+                SpecializationArea = doctor.SpecializationArea,
+                HospitalName = doctor.HospitalName,
+            };
+            return doctorGetDto;
+        }
     }
 }

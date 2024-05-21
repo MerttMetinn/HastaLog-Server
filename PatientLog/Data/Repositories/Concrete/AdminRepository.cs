@@ -19,10 +19,11 @@ namespace PatientLog.Data.Repositories.Concrete
 
             string sql = $"""
                     INSERT INTO Admins  (Id ,Name , Surname , Email , Password , CreatedDate, UpdatedDate)
-                    VALUES ('{Guid.NewGuid()}', '{entity.Name}', '{entity.Surname}', '{entity.Email}', '{entity.Password}', '{entity.CreatedDate}', '{entity.UpdatedDate}');
+                    VALUES ('{Guid.NewGuid()}', '{entity.Name}', '{entity.Surname}', '{entity.Email}',
+                    '{entity.Password}', @createdDate, @updatedDate);
                 """;
 
-            connection.Query(sql);
+            connection.Query(sql, new { createdDate = entity.CreatedDate, updatedDate = entity.UpdatedDate });
 
             connection.Close();
 
@@ -82,6 +83,7 @@ namespace PatientLog.Data.Repositories.Concrete
                     a.Name  as Name,
                     a.Surname as Surname ,
                     a.Email  as Email ,
+                    a.Password as Password,
                     a.CreatedDate as CreatedDate
                     from Admins a 
                     where a.Id = '{id}';

@@ -21,12 +21,12 @@ namespace PatientLog.Data.Repositories.Concrete
                     INSERT INTO Doctors  (Id ,Name , Surname , Email , Password, BirthDate, Gender, 
                     PhoneNumber, Address, SpecializationArea, HospitalName, CreatedDate, UpdatedDate)
                     VALUES ('{Guid.NewGuid()}', '{entity.Name}', '{entity.Surname}', '{entity.Email}', 
-                    '{entity.Password}', '{entity.BirthDate}', '{entity.Gender}', '{entity.PhoneNumber}', 
-                    '{entity.Address}', '{entity.SpecializationArea}','{entity.HospitalName}','{entity.CreatedDate}',
-                    '{entity.UpdatedDate}');
+                    '{entity.Password}', @birthDate, '{entity.Gender}', '{entity.PhoneNumber}', 
+                    '{entity.Address}', '{entity.SpecializationArea}','{entity.HospitalName}', @createdDate,
+                    @updatedDate);
                     """;
 
-            connection.Query(sql);
+            connection.Query(sql, new { birthDate = entity.BirthDate, createdDate = entity.CreatedDate, updatedDate = entity.UpdatedDate });
 
             connection.Close();
 
@@ -150,6 +150,64 @@ namespace PatientLog.Data.Repositories.Concrete
             connection.Close();
 
             return count >= 1;
+        }
+
+        public List<Doctor> GetAllDoctorsBySpecializationArea(string SpecializationArea, string HospitalName)
+        {
+            using (var connection = new SqlConnection(ConstVariables.ConnectionString))
+            {
+                if (connection.State == System.Data.ConnectionState.Closed)
+                {
+                    connection.Open();
+                }
+
+                string sql = @"
+                SELECT * FROM Doctors
+                WHERE SpecializationArea = @SpecializationArea
+                AND HospitalName = @HospitalName;
+                ";
+
+                var doctors = connection.Query<Doctor>(sql, new { SpecializationArea, HospitalName }).ToList();
+
+                connection.Close();
+
+                return doctors;
+            }
+        }
+
+        public Doctor GetEntityByFullName(string name, string surname)
+        {
+            using (var connection = new SqlConnection(ConstVariables.ConnectionString))
+            {
+                if (connection.State == System.Data.ConnectionState.Closed)
+                {
+                    connection.Open();
+                }
+
+                string sql = @"
+                SELECT
+                d.Id AS Id,
+                d.Name AS Name,
+                d.Surname AS Surname,
+                d.Email AS Email,
+                d.BirthDate AS BirthDate,
+                d.Gender AS Gender,
+                d.PhoneNumber AS PhoneNumber,
+                d.Address AS Address,
+                d.SpecializationArea AS SpecializationArea,
+                d.HospitalName AS HospitalName,
+                d.CreatedDate AS CreatedDate
+                FROM Doctors d 
+                WHERE d.Name = @Name 
+                AND d.Surname = @Surname;
+                ";
+
+                Doctor? doctor = connection.Query<Doctor>(sql, new { Name = name, Surname = surname }).FirstOrDefault();
+
+                connection.Close();
+
+                return doctor;
+            }
         }
     }
 }

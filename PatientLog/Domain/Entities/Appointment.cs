@@ -8,6 +8,7 @@
         }
         public DateTime Date { get; set; }
         public string HospitalName { get; set; }
+        public string Clinic { get; set; }
         public Guid PatientId { get; set; }
         public Patient Patient { get; set; }
         public Guid DoctorId { get; set; }

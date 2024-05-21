@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using PatientLog.Data.Repositories.Abstract;
 using PatientLog.Domain.Contracts;
+using PatientLog.Domain.Dtos.AppointmentDtos;
 using PatientLog.Domain.Entities;
 using System.Data.SqlClient;
 
@@ -10,24 +11,69 @@ namespace PatientLog.Data.Repositories.Concrete
     {
         public bool AddEntity(Appointment entity)
         {
+            using (var connection = new SqlConnection(ConstVariables.ConnectionString))
+            {
+
+                if (connection.State == System.Data.ConnectionState.Closed)
+                {
+                    connection.Open();
+                }
+
+                string sql = @"
+            INSERT INTO Appointments (Id, Date, Clinic, HospitalName, PatientId, DoctorId, CreatedDate, UpdatedDate)
+            VALUES (@Id, @Date, @Clinic, @HospitalName, @PatientId, @DoctorId, @CreatedDate, @UpdatedDate);
+        ";
+
+                connection.Execute(sql, new
+                {
+                    Id = Guid.NewGuid(),
+                    Date = entity.Date,
+                    Clinic = entity.Clinic,
+                    HospitalName = entity.HospitalName,
+                    PatientId = entity.PatientId,
+                    DoctorId = entity.DoctorId,
+                    CreatedDate = entity.CreatedDate,
+                    UpdatedDate = entity.UpdatedDate
+                });
+
+                connection.Close();
+
+                return true;
+            }
+        }
+
+        public bool CheckAppointmentDate(AppointmentGetDto appointmentGetDto)
+        {
             var connection = new SqlConnection(ConstVariables.ConnectionString);
 
             if (connection.State == System.Data.ConnectionState.Closed)
             {
                 connection.Open();
             }
-            //Düzeltilecek
-            string sql = $"""
-                    INSERT INTO Appointments  (Id ,Date , HospitalName , PatientId , DoctorId , CreatedDate, UpdatedDate)
-                    VALUES ('{Guid.NewGuid()}', '{entity.Date}', '{entity.HospitalName}', '{entity.PatientId}', '{entity.DoctorId}',
-                    '{entity.CreatedDate}', '{entity.UpdatedDate}');
-                """;
 
-            connection.Query(sql);
+            string sql = $"""
+                    SELECT
+                    Count(*)
+                    FROM Appointments a
+                    WHERE a.Date = @Date
+                    AND a.HospitalName = @HospitalName
+                    AND a.Clinic = @Clinic
+                    AND a.DoctorId = @DoctorId
+            """;
+
+            var parameters = new
+            {
+                Date = appointmentGetDto.Date,
+                HospitalName = appointmentGetDto.HospitalName,
+                Clinic = appointmentGetDto.Clinic,
+                DoctorId = appointmentGetDto.DoctorId
+            };
+
+            int count = connection.Query<int>(sql, parameters).FirstOrDefault();
 
             connection.Close();
 
-            return true;
+            return count >= 1;
         }
 
         public bool DeleteEntity(Appointment entity)
@@ -51,7 +97,7 @@ namespace PatientLog.Data.Repositories.Concrete
             return true;
         }
 
-        public List<Appointment> GetAllAppointmentByPatientId(Guid patientId)
+        public List<Appointment> GetAppointmentsByPatientId(Guid patientId)
         {
             var connection = new SqlConnection(ConstVariables.ConnectionString);
 

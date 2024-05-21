@@ -9,7 +9,7 @@ namespace PatientLog.Service.Abstract
         void DeleteAppointment(AppointmentDeleteDto appointmentDeleteDto);
         List<Appointment> GetAllAppointments();
         AppointmentGetDto? GetAppointmentById(Guid id);
-
-        List<AppointmentGetDto> GetAllAppointmentsByPatientId(Guid patientId);
+        List<AppointmentGetDto> GetAppointmentsByPatientId(Guid patientId);
+        bool CheckAppointmentDate(AppointmentGetDto appointmentGetDto);
     }
 }

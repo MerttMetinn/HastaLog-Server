@@ -47,6 +47,7 @@ namespace PatientLog.Service.Concrete
                 Name = admin.Name,
                 Surname = admin.Surname,
                 Email = admin.Email,
+                Password = admin.Password,
             };
             return adminGetDto;
         }

@@ -1,12 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using PatientLog.Data.Repositories.Abstract;
-using PatientLog.Domain.Dtos.AdminDtos;
 using PatientLog.Domain.Dtos.DoctorDtos;
 using PatientLog.Service.Abstract;
-using PatientLog.Service.Concrete;
-using System.Security.Claims;
 
 namespace PatientLog.Controllers
 {
@@ -22,7 +17,7 @@ namespace PatientLog.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         public IActionResult AddDoctor([FromBody] DoctorAddDto doctorAddDto)
         {
             _doctorservice.AddDoctor(doctorAddDto);
@@ -31,9 +26,16 @@ namespace PatientLog.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         public IActionResult DeleteDoctor([FromRoute] Guid id)
         {
+            var doctor = _doctorservice.GetDoctorById(id);
+
+            if (doctor == null)
+            {
+                return BadRequest("Doctor not found");
+            }
+
             DoctorDeleteDto doctorDeleteDto = new DoctorDeleteDto()
             {
                 Id = id
@@ -45,7 +47,7 @@ namespace PatientLog.Controllers
 
         
         [HttpGet("{id}")]
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         public IActionResult GetDoctorById(Guid id)
         {
             try
@@ -64,7 +66,7 @@ namespace PatientLog.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         public IActionResult GetAllDoctors()
         {
             var doctors = _doctorservice.GetAllDoctors();
@@ -75,6 +77,40 @@ namespace PatientLog.Controllers
             }
 
             return Ok(doctors);
+        }
+
+        [HttpGet]
+        //[Authorize(Roles = "patient")]
+        public IActionResult GetAllDoctorsBySpecializationArea(string SpecializationArea, string HospitalName)
+        {
+            var doctors = _doctorservice.GetAllDoctorsBySpecializationArea(SpecializationArea, HospitalName);
+
+            if (doctors == null || !doctors.Any())
+            {
+                return NotFound("No doctors found matching the provided criteria.");
+            }
+
+            return Ok(doctors);
+        }
+
+        [HttpGet]
+        //[Authorize(Roles = "patient")]
+        public IActionResult GetDoctorByFullName(string name, string surname)
+        {
+            try
+            {
+                var doctor = _doctorservice.GetDoctorByFullName(name,surname);
+
+                if (doctor == null)
+                {
+                    return BadRequest("Doctor not found");
+                }
+                return Ok(doctor);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while processing your request.");
+            }
         }
     }
 }

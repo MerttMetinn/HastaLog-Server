@@ -7,5 +7,6 @@ namespace PatientLog.Domain.Dtos.TokenDtos
         public string AccessToken { get; set; }
         public string Email { get; set; }
         public UserTypeEnum UserType { get; set; }
+        public Guid Id { get; set; }
     }
 }

@@ -28,7 +28,7 @@ namespace PatientLog.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         public IActionResult DeletePatient([FromRoute] Guid id)
         {
             PatientDeleteDto patientDeleteDto = new PatientDeleteDto()
@@ -42,7 +42,7 @@ namespace PatientLog.Controllers
 
 
         [HttpGet("{id}")]
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin,patient")]
         public IActionResult GetPatientById(Guid id)
         {
             try

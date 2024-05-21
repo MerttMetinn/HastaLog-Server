@@ -5,6 +5,8 @@ namespace PatientLog.Data.Repositories.Abstract
 {
     public interface IAppointmentRepository : IBaseRepository<Appointment>
     {
-        List<Appointment> GetAllAppointmentByPatientId(Guid patientId);
+        List<Appointment> GetAppointmentsByPatientId(Guid patientId);
+        bool CheckAppointmentDate(AppointmentGetDto appointmentGetDto);
+
     }
 }

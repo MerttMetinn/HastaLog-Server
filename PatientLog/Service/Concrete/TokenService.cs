@@ -32,7 +32,8 @@ namespace PatientLog.Service.Concrete
             {
                 AccessToken = token,
                 Email = user.Email,
-                UserType =user.UserType
+                UserType =user.UserType,
+                Id = user.Id,
             };
 
             return loginResponseDto;

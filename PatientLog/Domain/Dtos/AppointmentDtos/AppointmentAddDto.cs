@@ -6,6 +6,7 @@ namespace PatientLog.Domain.Dtos.AppointmentDtos
     {
         public DateTime Date { get; set; }
         public string HospitalName { get; set; }
+        public string Clinic { get; set; }
         public Guid PatientId { get; set; }
         public Guid DoctorId { get; set; }
     }
